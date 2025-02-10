@@ -1,0 +1,50 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "supabase_auth",
+  "type": "registry:block",
+  "title": "Supabase_auth",
+  "description": "supabase_auth component",
+  "dependencies": [
+    "@supabase/ssr",
+    "@supabase/supabase-js"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "registry/supabase_auth/app/action.ts",
+      "content": "\"use server\";\n\nimport { createClient } from \"@/utils/supabase/server\";\nimport { encodedRedirect } from \"@/utils/utils\";\n\nexport const signInWithEmail = async (formData: FormData) => {\n  console.log(\"formdata\", formData);\n  const email = formData.get(\"email\")?.toString();\n  const password = formData.get(\"password\")?.toString();\n  if (email && password) {\n    return signInWithPassword(email, password);\n  }\n\n  if (!email) {\n    return encodedRedirect(\"error\", \"/login\", \"Email is required\");\n  }\n\n  const supabase = await createClient();\n\n  const { data, error } = await supabase.auth.signInWithOtp({\n    email: email,\n    options: {\n      // set this to false if you do not want the user to be automatically signed up\n      shouldCreateUser: true,\n      emailRedirectTo: \"/auth/callback\",\n    },\n  });\n\n  if (error) {\n    return encodedRedirect(\"error\", \"/login\", error.message);\n  }\n\n  return encodedRedirect(\"success\", \"/login\", \"Magic link sent to email\");\n};\n\nexport const signInWithPassword = async (email: string, password: string) => {\n  console.log(\"signInWithPassword\", email, password);\n  const supabase = await createClient();\n\n  const { error } = await supabase.auth.signInWithPassword({\n    email,\n    password,\n  });\n\n  if (error) {\n    return encodedRedirect(\"error\", \"/login\", error.message);\n  }\n\n  return encodedRedirect(\"success\", \"/\", \"Signed in\");\n};\n\nexport const signOut = async () => {\n  const supabase = await createClient();\n  await supabase.auth.signOut();\n  encodedRedirect(\"success\", \"/\", \"Signed out\");\n};\n\nexport const sendPasswordResetEmail = async (email: string) => {\n  const supabase = await createClient();\n\n  const { data, error } = await supabase.auth.resetPasswordForEmail(email, {\n    redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/update-password`,\n  });\n\n  if (error) {\n    return encodedRedirect(\"error\", \"/forgot-password\", error.message);\n  }\n\n  return encodedRedirect(\n    \"success\",\n    \"/forgot-password\",\n    \"Password reset link sent to your email\"\n  );\n};\n\nexport const updatePassword = async (password: string, token: string) => {\n  const supabase = await createClient();\n\n  const { data, error } = await supabase.auth.updateUser({\n    password: password,\n    token: token,\n  });\n\n  if (error) {\n    return encodedRedirect(\"error\", \"/update-password\", error.message);\n  }\n\n  return encodedRedirect(\"success\", \"/login\", \"Password updated successfully\");\n};\n\nexport const signUpWithEmail = async (formData: FormData) => {\n  const email = formData.get(\"email\")?.toString();\n  const password = formData.get(\"password\")?.toString();\n\n  if (!email || !password) {\n    return encodedRedirect(\n      \"error\",\n      \"/signup\",\n      \"Email and password are required\"\n    );\n  }\n\n  const supabase = await createClient();\n\n  const { data, error } = await supabase.auth.signUp({\n    email: email,\n    password: password,\n    options: {\n      emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,\n    },\n  });\n\n  if (error) {\n    return encodedRedirect(\"error\", \"/signup\", error.message);\n  }\n\n  return encodedRedirect(\n    \"success\",\n    \"/login\",\n    \"Account created. Check your email to verify.\"\n  );\n};\n",
+      "type": "registry:file",
+      "target": "app/action.ts"
+    },
+    {
+      "path": "registry/supabase_auth/middleware.ts",
+      "content": "import { type NextRequest } from \"next/server\";\nimport { updateSession } from \"@/utils/supabase/middleware\";\nexport async function middleware(request: NextRequest) {\n  return await updateSession(request);\n}\n\nexport const config = {\n  matcher: [\n    /*\n     * Match all request paths except:\n     * - _next/static (static files)\n     * - _next/image (image optimization files)\n     * - favicon.ico (favicon file)\n     * - images - .svg, .png, .jpg, .jpeg, .gif, .webp\n     * Feel free to modify this pattern to include more paths.\n     */\n    \"/((?!_next/static|_next/image|favicon.ico|.*\\\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)\",\n  ],\n};\n",
+      "type": "registry:file",
+      "target": "middleware.ts"
+    },
+    {
+      "path": "registry/supabase_auth/utils/utils.ts",
+      "content": "import { redirect } from \"next/navigation\";\n\n/**\n * Redirects to a specified path with an encoded message as a query parameter.\n * @param {('error' | 'success')} type - The type of message, either 'error' or 'success'.\n * @param {string} path - The path to redirect to.\n * @param {string} message - The message to be encoded and added as a query parameter.\n * @returns {never} This function doesn't return as it triggers a redirect.\n */\nexport function encodedRedirect(\n  type: \"error\" | \"success\" | \"message\",\n  path: string,\n  message: string\n) {\n  return redirect(`${path}?${type}=${encodeURIComponent(message)}`);\n}\n",
+      "type": "registry:file",
+      "target": "utils/utils.ts"
+    },
+    {
+      "path": "registry/supabase_auth/utils/supabase/middleware.ts",
+      "content": "import { createServerClient } from \"@supabase/ssr\";\nimport { NextResponse, type NextRequest } from \"next/server\";\n\nexport async function updateSession(request: NextRequest) {\n  let supabaseResponse = NextResponse.next({\n    request,\n  });\n\n  const supabase = createServerClient(\n    process.env.NEXT_PUBLIC_SUPABASE_URL!,\n    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,\n    {\n      cookies: {\n        getAll() {\n          return request.cookies.getAll();\n        },\n        setAll(cookiesToSet) {\n          cookiesToSet.forEach(({ name, value, options }) =>\n            request.cookies.set(name, value)\n          );\n          supabaseResponse = NextResponse.next({\n            request,\n          });\n          cookiesToSet.forEach(({ name, value, options }) =>\n            supabaseResponse.cookies.set(name, value, options)\n          );\n        },\n      },\n    }\n  );\n\n  // Do not run code between createServerClient and\n  // supabase.auth.getUser(). A simple mistake could make it very hard to debug\n  // issues with users being randomly logged out.\n\n  // IMPORTANT: DO NOT REMOVE auth.getUser()\n\n  const {\n    data: { user },\n  } = await supabase.auth.getUser();\n\n  if (\n    !user &&\n    !request.nextUrl.pathname.startsWith(\"/login\") &&\n    !request.nextUrl.pathname.startsWith(\"/auth\")\n  ) {\n    // no user, potentially respond by redirecting the user to the login page\n    // const url = request.nextUrl.clone();\n    // url.pathname = \"/login\";\n    // return NextResponse.redirect(url);\n  }\n\n  // IMPORTANT: You *must* return the supabaseResponse object as it is.\n  // If you're creating a new response object with NextResponse.next() make sure to:\n  // 1. Pass the request in it, like so:\n  //    const myNewResponse = NextResponse.next({ request })\n  // 2. Copy over the cookies, like so:\n  //    myNewResponse.cookies.setAll(supabaseResponse.cookies.getAll())\n  // 3. Change the myNewResponse object to fit your needs, but avoid changing\n  //    the cookies!\n  // 4. Finally:\n  //    return myNewResponse\n  // If this is not done, you may be causing the browser and server to go out\n  // of sync and terminate the user's session prematurely!\n\n  return supabaseResponse;\n}\n",
+      "type": "registry:file",
+      "target": "utils/supabase/middleware.ts"
+    },
+    {
+      "path": "registry/supabase_auth/utils/supabase/server.ts",
+      "content": "import { createServerClient } from \"@supabase/ssr\";\nimport { SupabaseClient } from \"@supabase/supabase-js\";\nimport { cookies } from \"next/headers\";\n\nexport const createClient = async (): Promise<SupabaseClient> => {\n  const cookieStore = await cookies();\n\n  return createServerClient(\n    process.env.NEXT_PUBLIC_SUPABASE_URL!,\n    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,\n    {\n      cookies: {\n        getAll() {\n          return cookieStore.getAll();\n        },\n        setAll(cookiesToSet) {\n          try {\n            cookiesToSet.forEach(({ name, value, options }) => {\n              cookieStore.set(name, value, options);\n            });\n          } catch (error) {\n            // The `set` method was called from a Server Component.\n            // This can be ignored if you have middleware refreshing\n            // user sessions.\n          }\n        },\n      },\n    }\n  );\n};\n",
+      "type": "registry:file",
+      "target": "utils/supabase/server.ts"
+    }
+  ],
+  "cssVars": {
+    "light": {},
+    "dark": {}
+  },
+  "meta": {},
+  "categories": []
+}

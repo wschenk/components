@@ -1,0 +1,95 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "shadcn-custom",
+  "homepage": "https://ui.shadcn.com",
+  "items": [
+    {
+      "type": "registry:block",
+      "categories": [],
+      "registryDependencies": [],
+      "dependencies": [
+        "@supabase/ssr",
+        "@supabase/supabase-js"
+      ],
+      "files": [
+        {
+          "path": "registry/supabase_auth/app/action.ts",
+          "type": "registry:file",
+          "target": "app/action.ts"
+        },
+        {
+          "path": "registry/supabase_auth/middleware.ts",
+          "type": "registry:file",
+          "target": "middleware.ts"
+        },
+        {
+          "path": "registry/supabase_auth/utils/utils.ts",
+          "type": "registry:file",
+          "target": "utils/utils.ts"
+        },
+        {
+          "path": "registry/supabase_auth/utils/supabase/middleware.ts",
+          "type": "registry:file",
+          "target": "utils/supabase/middleware.ts"
+        },
+        {
+          "path": "registry/supabase_auth/utils/supabase/server.ts",
+          "type": "registry:file",
+          "target": "utils/supabase/server.ts"
+        }
+      ],
+      "meta": {},
+      "cssVars": {
+        "light": {},
+        "dark": {}
+      },
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "supabase_auth",
+      "title": "Supabase_auth",
+      "description": "supabase_auth component"
+    },
+    {
+      "type": "registry:block",
+      "categories": [],
+      "registryDependencies": [
+        "button",
+        "input",
+        "label"
+      ],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "registry/supabase_login/app/(auth)/login/page.tsx",
+          "type": "registry:page",
+          "target": "app/(auth)/login/page.tsx"
+        },
+        {
+          "path": "registry/supabase_login/app/(auth)/signup/page.tsx",
+          "type": "registry:page",
+          "target": "app/(auth)/signup/page.tsx"
+        },
+        {
+          "path": "registry/supabase_login/lib/utils.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "registry/supabase_login/login-form.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/supabase_login/signup-form.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {},
+      "cssVars": {
+        "light": {},
+        "dark": {}
+      },
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "supabase_login",
+      "title": "supabase_login",
+      "description": "supabase_login component"
+    }
+  ]
+}

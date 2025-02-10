@@ -1,0 +1,39 @@
+{
+  "type": "registry:block",
+  "categories": [],
+  "registryDependencies": ["button", "input", "label"],
+  "dependencies": [],
+  "files": [
+    {
+      "path": "registry/supabase_login/app/(auth)/login/page.tsx",
+      "type": "registry:page",
+      "target": "app/(auth)/login/page.tsx"
+    },
+    {
+      "path": "registry/supabase_login/app/(auth)/signup/page.tsx",
+      "type": "registry:page",
+      "target": "app/(auth)/signup/page.tsx"
+    },
+    {
+      "path": "registry/supabase_login/lib/utils.ts",
+      "type": "registry:lib"
+    },
+    {
+      "path": "registry/supabase_login/login-form.tsx",
+      "type": "registry:component"
+    },
+    {
+      "path": "registry/supabase_login/signup-form.tsx",
+      "type": "registry:component"
+    }
+  ],
+  "meta": {},
+  "cssVars": {
+    "light": {},
+    "dark": {}
+  },
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "supabase_login",
+  "title": "supabase_login",
+  "description": "supabase_login component"
+}

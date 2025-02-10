@@ -1,0 +1,45 @@
+{
+  "type": "registry:block",
+  "categories": [],
+  "registryDependencies": [],
+  "dependencies": [
+    "@supabase/ssr",
+    "@supabase/supabase-js"
+  ],
+  "files": [
+    {
+      "path": "registry/supabase_auth/app/action.ts",
+      "type": "registry:file",
+      "target": "app/action.ts"
+    },
+    {
+      "path": "registry/supabase_auth/middleware.ts",
+      "type": "registry:file",
+      "target": "middleware.ts"
+    },
+    {
+      "path": "registry/supabase_auth/utils/utils.ts",
+      "type": "registry:file",
+      "target": "utils/utils.ts"
+    },
+    {
+      "path": "registry/supabase_auth/utils/supabase/middleware.ts",
+      "type": "registry:file",
+      "target": "utils/supabase/middleware.ts"
+    },
+    {
+      "path": "registry/supabase_auth/utils/supabase/server.ts",
+      "type": "registry:file",
+      "target": "utils/supabase/server.ts"
+    }
+  ],
+  "meta": {},
+  "cssVars": {
+    "light": {},
+    "dark": {}
+  },
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "supabase_auth",
+  "title": "Supabase_auth",
+  "description": "supabase_auth component"
+}
