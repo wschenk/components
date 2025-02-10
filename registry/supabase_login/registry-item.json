@@ -1,7 +1,11 @@
 {
   "type": "registry:block",
   "categories": [],
-  "registryDependencies": ["button", "input", "label"],
+  "registryDependencies": [
+    "button",
+    "input",
+    "label"
+  ],
   "dependencies": [],
   "files": [
     {
@@ -24,6 +28,30 @@
     },
     {
       "path": "registry/supabase_login/signup-form.tsx",
+      "type": "registry:component"
+    },
+    {
+      "path": "registry/supabase_login/app/(auth)/login/page.tsx",
+      "type": "registry:page",
+      "target": "app/(auth)/login/page.tsx"
+    },
+    {
+      "path": "registry/supabase_login/app/(auth)/signup/page.tsx",
+      "type": "registry:page",
+      "target": "app/(auth)/signup/page.tsx"
+    },
+    {
+      "path": "registry/supabase_login/lib/utils.ts",
+      "type": "registry:file",
+      "target": "lib/utils.ts"
+    },
+    {
+      "path": "registry/supabase_login/app/private/page.tsx",
+      "type": "registry:page",
+      "target": "app/private/page.tsx"
+    },
+    {
+      "path": "registry/supabase_login/auth-button.tsx",
       "type": "registry:component"
     }
   ],

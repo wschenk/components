@@ -7,25 +7,36 @@
       "type": "registry:block",
       "categories": [],
       "registryDependencies": [],
+      "dependencies": [],
+      "files": [
+        {
+          "path": "registry/form-message/form-message.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "meta": {},
+      "cssVars": {
+        "light": {},
+        "dark": {}
+      },
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "form-message",
+      "title": "Form-message",
+      "description": "form-message component"
+    },
+    {
+      "type": "registry:block",
+      "categories": [],
+      "registryDependencies": [],
       "dependencies": [
-        "@supabase/ssr",
-        "@supabase/supabase-js"
+        "@supabase/supabase-js",
+        "@supabase/supabase-ssr"
       ],
       "files": [
         {
           "path": "registry/supabase_auth/app/action.ts",
           "type": "registry:file",
           "target": "app/action.ts"
-        },
-        {
-          "path": "registry/supabase_auth/middleware.ts",
-          "type": "registry:file",
-          "target": "middleware.ts"
-        },
-        {
-          "path": "registry/supabase_auth/utils/utils.ts",
-          "type": "registry:file",
-          "target": "utils/utils.ts"
         },
         {
           "path": "registry/supabase_auth/utils/supabase/middleware.ts",
@@ -36,6 +47,21 @@
           "path": "registry/supabase_auth/utils/supabase/server.ts",
           "type": "registry:file",
           "target": "utils/supabase/server.ts"
+        },
+        {
+          "path": "registry/supabase_auth/middleware.ts",
+          "type": "registry:file",
+          "target": "middleware.ts"
+        },
+        {
+          "path": "registry/supabase_auth/app/(auth)/auth/confirm/route.ts",
+          "type": "registry:file",
+          "target": "app/(auth)/auth/confirm/route.ts"
+        },
+        {
+          "path": "registry/supabase_auth/supabase/templates/magic_link.html",
+          "type": "registry:file",
+          "target": "supabase/templates/magic_link.html"
         }
       ],
       "meta": {},
@@ -78,6 +104,30 @@
         },
         {
           "path": "registry/supabase_login/signup-form.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "registry/supabase_login/app/(auth)/login/page.tsx",
+          "type": "registry:page",
+          "target": "app/(auth)/login/page.tsx"
+        },
+        {
+          "path": "registry/supabase_login/app/(auth)/signup/page.tsx",
+          "type": "registry:page",
+          "target": "app/(auth)/signup/page.tsx"
+        },
+        {
+          "path": "registry/supabase_login/lib/utils.ts",
+          "type": "registry:file",
+          "target": "lib/utils.ts"
+        },
+        {
+          "path": "registry/supabase_login/app/private/page.tsx",
+          "type": "registry:page",
+          "target": "app/private/page.tsx"
+        },
+        {
+          "path": "registry/supabase_login/auth-button.tsx",
           "type": "registry:component"
         }
       ],

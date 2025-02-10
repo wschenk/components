@@ -2,25 +2,12 @@
   "type": "registry:block",
   "categories": [],
   "registryDependencies": [],
-  "dependencies": [
-    "@supabase/ssr",
-    "@supabase/supabase-js"
-  ],
+  "dependencies": ["@supabase/supabase-js", "@supabase/supabase-ssr"],
   "files": [
     {
       "path": "registry/supabase_auth/app/action.ts",
       "type": "registry:file",
       "target": "app/action.ts"
-    },
-    {
-      "path": "registry/supabase_auth/middleware.ts",
-      "type": "registry:file",
-      "target": "middleware.ts"
-    },
-    {
-      "path": "registry/supabase_auth/utils/utils.ts",
-      "type": "registry:file",
-      "target": "utils/utils.ts"
     },
     {
       "path": "registry/supabase_auth/utils/supabase/middleware.ts",
@@ -31,6 +18,21 @@
       "path": "registry/supabase_auth/utils/supabase/server.ts",
       "type": "registry:file",
       "target": "utils/supabase/server.ts"
+    },
+    {
+      "path": "registry/supabase_auth/middleware.ts",
+      "type": "registry:file",
+      "target": "middleware.ts"
+    },
+    {
+      "path": "registry/supabase_auth/app/(auth)/auth/confirm/route.ts",
+      "type": "registry:file",
+      "target": "app/(auth)/auth/confirm/route.ts"
+    },
+    {
+      "path": "registry/supabase_auth/supabase/templates/magic_link.html",
+      "type": "registry:file",
+      "target": "supabase/templates/magic_link.html"
     }
   ],
   "meta": {},

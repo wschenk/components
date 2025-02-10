@@ -37,6 +37,35 @@
       "path": "registry/supabase_login/signup-form.tsx",
       "content": "\"use client\"\n\nimport { useState } from \"react\"\nimport { GalleryVerticalEnd } from \"lucide-react\"\n\nimport { cn } from \"@/lib/utils\"\nimport { Button } from \"@/components/ui/button\"\nimport { Input } from \"@/components/ui/input\"\nimport { Label } from \"@/components/ui/label\"\n\nexport function SignupForm({ className, ...props }: React.ComponentPropsWithoutRef<\"div\">) {\n  const [email, setEmail] = useState(\"\")\n  const [password, setPassword] = useState(\"\")\n  const [confirmPassword, setConfirmPassword] = useState(\"\")\n\n  const handleSubmit = (e: React.FormEvent) => {\n    e.preventDefault()\n    if (password && confirmPassword) {\n      if (password === confirmPassword) {\n        console.log(\"Signing up with email and password\")\n      } else {\n        console.log(\"Passwords do not match\")\n      }\n    } else {\n      console.log(\"Sending login link for sign up\")\n    }\n  }\n\n  return (\n    <div className={cn(\"flex flex-col gap-6\", className)} {...props}>\n      <form onSubmit={handleSubmit}>\n        <div className=\"flex flex-col gap-6\">\n          <div className=\"flex flex-col items-center gap-2\">\n            <a href=\"#\" className=\"flex flex-col items-center gap-2 font-medium\">\n              <div className=\"flex h-8 w-8 items-center justify-center rounded-md\">\n                <GalleryVerticalEnd className=\"size-6\" />\n              </div>\n              <span className=\"sr-only\">Acme Inc.</span>\n            </a>\n            <h1 className=\"text-xl font-bold\">Sign up for Acme Inc.</h1>\n            <div className=\"text-center text-sm\">\n              Already have an account?{\" \"}\n              <a href=\"/login\" className=\"underline underline-offset-4\">\n                Log in\n              </a>\n            </div>\n          </div>\n          <div className=\"flex flex-col gap-4\">\n            <div className=\"grid gap-2\">\n              <Label htmlFor=\"email\">Email</Label>\n              <Input\n                id=\"email\"\n                type=\"email\"\n                placeholder=\"m@example.com\"\n                required\n                value={email}\n                onChange={(e) => setEmail(e.target.value)}\n              />\n            </div>\n            <div className=\"grid gap-2\">\n              <Label htmlFor=\"password\">Password</Label>\n              <Input\n                id=\"password\"\n                type=\"password\"\n                placeholder=\"Leave blank to send a login link\"\n                value={password}\n                onChange={(e) => setPassword(e.target.value)}\n              />\n            </div>\n            <div className=\"grid gap-2\">\n              <Label htmlFor=\"confirm-password\">Confirm Password</Label>\n              <Input\n                id=\"confirm-password\"\n                type=\"password\"\n                placeholder=\"Leave blank to send a login link\"\n                value={confirmPassword}\n                onChange={(e) => setConfirmPassword(e.target.value)}\n              />\n            </div>\n            <Button type=\"submit\" className=\"w-full\">\n              {password && confirmPassword ? \"Sign Up\" : \"Send Login Link\"}\n            </Button>\n          </div>\n        </div>\n      </form>\n      <div className=\"text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 hover:[&_a]:text-primary\">\n        By signing up, you agree to our <a href=\"#\">Terms of Service</a> and <a href=\"#\">Privacy Policy</a>.\n      </div>\n    </div>\n  )\n}\n\n",
       "type": "registry:component"
+    },
+    {
+      "path": "registry/supabase_login/app/(auth)/login/page.tsx",
+      "content": "import { LoginForm } from \"@/components/login-form\";\n\nexport default function LoginPage() {\n  return (\n    <div className=\"flex min-h-svh flex-col items-center justify-center gap-6 bg-background p-6 md:p-10\">\n      <div className=\"w-full max-w-sm\">\n        <LoginForm />\n      </div>\n    </div>\n  );\n}\n",
+      "type": "registry:page",
+      "target": "app/(auth)/login/page.tsx"
+    },
+    {
+      "path": "registry/supabase_login/app/(auth)/signup/page.tsx",
+      "content": "import { SignupForm } from \"@/components/signup-form\";\n\nexport default function SignupPage() {\n  return (\n    <div className=\"flex min-h-svh flex-col items-center justify-center gap-6 bg-background p-6 md:p-10\">\n      <div className=\"w-full max-w-sm\">\n        <SignupForm />\n      </div>\n    </div>\n  );\n}\n",
+      "type": "registry:page",
+      "target": "app/(auth)/signup/page.tsx"
+    },
+    {
+      "path": "registry/supabase_login/lib/utils.ts",
+      "content": "import { clsx, type ClassValue } from \"clsx\"\nimport { twMerge } from \"tailwind-merge\"\n\nexport function cn(...inputs: ClassValue[]) {\n  return twMerge(clsx(inputs))\n}\n",
+      "type": "registry:file",
+      "target": "lib/utils.ts"
+    },
+    {
+      "path": "registry/supabase_login/app/private/page.tsx",
+      "content": "import { redirect } from \"next/navigation\";\n\nimport { createClient } from \"@/utils/supabase/server\";\nimport { encodedRedirect } from \"@/utils/utils\";\nimport AuthButton from \"@/components/auth-button\";\n\nexport default async function PrivatePage() {\n  const supabase = await createClient();\n\n  const { data, error } = await supabase.auth.getUser();\n  if (error || !data?.user) {\n    encodedRedirect(\"message\", \"/login\", \"User not found\");\n  }\n\n  if (data && data.user) {\n    return (\n      <div>\n        <p>Hello {data.user.email}</p>\n        <AuthButton />\n      </div>\n    );\n  }\n  return <p>Hello who knows who you are</p>;\n}\n",
+      "type": "registry:page",
+      "target": "app/private/page.tsx"
+    },
+    {
+      "path": "registry/supabase_login/auth-button.tsx",
+      "content": "import { createClient } from \"@/utils/supabase/server\";\nimport Link from \"next/link\";\nimport { Button } from \"./ui/button\";\nimport { signOut } from \"@/app/action\";\nexport default async function AuthButton() {\n  const supabase = await createClient();\n\n  const {\n    data: { user },\n  } = await supabase.auth.getUser();\n\n  if (user) {\n    return (\n      <form action={signOut}>\n        <Button type=\"submit\">Sign out</Button>\n      </form>\n    );\n  } else {\n    return (\n      <Link href=\"/login\">\n        <Button>Login</Button>\n      </Link>\n    );\n  }\n\n  return <div></div>;\n}\n",
+      "type": "registry:component"
     }
   ],
   "cssVars": {

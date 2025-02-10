@@ -3,10 +3,7 @@
 import { createClient } from "@/utils/supabase/server";
 import { encodedRedirect } from "@/utils/utils";
 
-export const signInWithEmail = async (formData: FormData) => {
-  console.log("formdata", formData);
-  const email = formData.get("email")?.toString();
-  const password = formData.get("password")?.toString();
+export const signInWithEmail = async (email: string, password?: string) => {
   if (email && password) {
     return signInWithPassword(email, password);
   }
@@ -73,12 +70,11 @@ export const sendPasswordResetEmail = async (email: string) => {
   );
 };
 
-export const updatePassword = async (password: string, token: string) => {
+export const updatePassword = async (password: string) => {
   const supabase = await createClient();
 
   const { data, error } = await supabase.auth.updateUser({
     password: password,
-    token: token,
   });
 
   if (error) {

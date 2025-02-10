@@ -1,0 +1,21 @@
+{
+  "type": "registry:block",
+  "categories": [],
+  "registryDependencies": [],
+  "dependencies": [],
+  "files": [
+    {
+      "path": "registry/form-message/form-message.tsx",
+      "type": "registry:component"
+    }
+  ],
+  "meta": {},
+  "cssVars": {
+    "light": {},
+    "dark": {}
+  },
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "form-message",
+  "title": "Form-message",
+  "description": "form-message component"
+}

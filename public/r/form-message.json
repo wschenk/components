@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "form-message",
+  "type": "registry:block",
+  "title": "Form-message",
+  "description": "form-message component",
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "registry/form-message/form-message.tsx",
+      "content": "\"use client\";\n\nimport { useEffect, useState } from \"react\";\n// This is my favorite\n\nexport function FormMessage() {\n  const [message, setMessage] = useState<string | null>(null);\n  const [type, setType] = useState<\"success\" | \"error\" | \"message\" | null>(\n    null\n  );\n  useEffect(() => {\n    const searchParams = new URLSearchParams(window.location.search);\n    if (searchParams.get(\"success\")) {\n      setType(\"success\");\n      setMessage(searchParams.get(\"success\"));\n      // window.history.replaceState({}, \"\", window.location.pathname);\n    } else if (searchParams.get(\"error\")) {\n      setType(\"error\");\n      setMessage(searchParams.get(\"error\"));\n      // window.history.replaceState({}, \"\", window.location.pathname);\n    } else if (searchParams.get(\"message\")) {\n      setType(\"message\");\n      setMessage(searchParams.get(\"message\"));\n      // window.history.replaceState({}, \"\", window.location.pathname);\n    }\n  }, []);\n\n  return (\n    <div className=\"flex flex-col gap-2 w-full max-w-md text-sm\">\n      {type === \"success\" && (\n        <div className=\"text-foreground border-l-2 border-foreground px-4\">\n          {message}\n        </div>\n      )}\n      {type === \"error\" && (\n        <div className=\"text-destructive-foreground border-l-2 border-destructive-foreground px-4\">\n          {message}\n        </div>\n      )}\n      {type === \"message\" && (\n        <div className=\"text-foreground border-l-2 px-4\">{message}</div>\n      )}\n    </div>\n  );\n}\n",
+      "type": "registry:component"
+    }
+  ],
+  "cssVars": {
+    "light": {},
+    "dark": {}
+  },
+  "meta": {},
+  "categories": []
+}
